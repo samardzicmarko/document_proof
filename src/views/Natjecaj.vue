@@ -69,6 +69,9 @@
                     <th>
                       Broj bodova
                     </th>
+                    <th>
+                      Vaši bodovi
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -109,45 +112,55 @@ export default {
         {
           naslov: "za svaku godinu aktivnog djelovanja",
           bodovi: 0.5,
+          score: 0,
         },
         {
           naslov: "Broj zaposlenika na određeno ili neodređeno vrijeme do 3",
           bodovi: 1,
+          score: 0,
         },
         {
           naslov:
             "Broj zaposlenika na određeno ili neodređeno vrijeme više od 3",
           bodovi: 2,
+          score: 0,
         },
         {
           naslov:
             "Za svaku zaposlenu osobu iz socijalno osjetljivih skupina kojoj prijeti trajna nezaposlenost i socijalna isključenost",
           bodovi: 1,
+          score: 0,
         },
         {
           naslov: "Broj članova udruge do 100",
           bodovi: 1,
+          score: 0,
         },
         {
           naslov: "Broj članova udruge do 200",
           bodovi: 2,
+          score: 0,
         },
         {
           naslov: "Broj članova udruge više od 200",
           bodovi: 5,
+          score: 0,
         },
         {
           naslov: "Broj aktivnih volontera do 5",
           bodovi: 5,
+          score: 0,
         },
         {
           naslov: "Broj aktivnih volontera više od 5",
           bodovi: 10,
+          score: 0,
         },
         {
           naslov:
             "Broj partnerskih udruga s kojima se planira zajednički koristiti dodijeljeni poslovni prostor",
           bodovi: 2,
+          score: 0,
         },
       ],
     };

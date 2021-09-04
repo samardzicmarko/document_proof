@@ -22,9 +22,4 @@
   </v-container>
 </template>
 
-<script></script>
-<style>
-.natjecaj {
-  align-content: center;
-}
-</style>
+<script>

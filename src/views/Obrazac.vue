@@ -11,15 +11,31 @@
           </h3>
         </v-card-title>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field label="Naziv udruge" required></v-text-field>
-          <v-text-field label="Adresa sjedišta" required></v-text-field>
           <v-text-field
-            label="Ime i prezime osobe ovlaštene za zastupanje i dužnost koju obavlja"
+            label="Naziv udruge"
+            v-model="application.name"
             required
           ></v-text-field>
-          <v-text-field label="Telefon, mobitel, fax" required></v-text-field>
-          <v-text-field label="Adresa e-pošte" required></v-text-field>
-          <v-text-field label="Godina osnivanja" required></v-text-field>
+          <v-text-field
+            label="Adresa sjedišta"
+            v-model="application.address"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Ime i prezime osobe ovlaštene za zastupanje i dužnost koju obavlja"
+            v-model="application.nameAndSurname"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Telefon, mobitel, fax"
+            v-model="application.phone"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Adresa e-pošte"
+            v-model="application.email"
+            required
+          ></v-text-field>
 
           <v-simple-table>
             <template>
@@ -50,20 +66,13 @@
                   <td>
                     {{ category.coeff }}
                   </td>
-                  <td>
-                    <input
-                      v-model="category.total"
-                      @change="calculateCoefficient(category)"
-                    />
-                  </td>
+                  <td>{{ category.total }}</td>
                 </tr>
                 <tr>
                   <td class="total">Total:</td>
                   <td></td>
                   <td></td>
-                  <td>
-                    {{ totalPoints }}
-                  </td>
+                  <td class="total">{{ totalPoints }} bodova</td>
                 </tr>
               </tbody>
             </template>
@@ -84,24 +93,31 @@ export default {
   name: "Natjecaj",
   data() {
     return {
+      application: {
+        name: "",
+        address: "",
+        nameAndSurname: "",
+        phone: "",
+        email: "",
+        foundationYear: 0,
+        totalPoints: 0,
+      },
       form: [
         {
           name: "Godine aktivnog djelovanja",
           coeff: 0.5,
           score: 0,
           total: 0,
+          coefFixed: true,
         },
         {
           name: "Broj zaposlenika na određeno ili neodređeno vrijeme do 3",
           coeff: 1,
           score: 0,
           total: 0,
-        },
-        {
-          name: "Broj zaposlenika na određeno ili neodređeno vrijeme više od 3",
-          coeff: 2,
-          score: 0,
-          total: 0,
+          coefFixed: false,
+          threshold: 3,
+          newCoeff: 2,
         },
         {
           name:
@@ -109,36 +125,25 @@ export default {
           coeff: 1,
           score: 0,
           total: 0,
+          coefFixed: true,
         },
         {
           name: "Broj članova udruge do 100",
           coeff: 1,
           score: 0,
           total: 0,
-        },
-        {
-          name: "Broj članova udruge do 200",
-          coeff: 2,
-          score: 0,
-          total: 0,
-        },
-        {
-          name: "Broj članova udruge više od 200",
-          coeff: 5,
-          score: 0,
-          total: 0,
+          coefFixed: false,
+          threshold: 200,
+          newCoeff: 2.5,
         },
         {
           name: "Broj aktivnih volontera do 5",
           coeff: 5,
           score: 0,
           total: 0,
-        },
-        {
-          name: "Broj aktivnih volontera više od 5",
-          coeff: 10,
-          score: 0,
-          total: 0,
+          coefFixed: false,
+          threshold: 5,
+          newCoeff: 10,
         },
         {
           name:
@@ -146,6 +151,7 @@ export default {
           coeff: 2,
           score: 0,
           total: 0,
+          coefFixed: true,
         },
       ],
     };
@@ -153,13 +159,21 @@ export default {
 
   methods: {
     calculateCoefficient(form) {
-      let total = form.score * form.coeff;
-      if (!isNaN(total)) {
-        form.total = total;
+      if (!form.coefFixed) {
+        if (form.score > form.threshold) {
+          form.total = form.newCoeff * form.score;
+          form.coeff = form.newCoeff;
+          return;
+        }
       }
+      form.total = form.coeff * form.score;
+      return;
     },
     submit() {
-      alert(JSON.stringify(this.form));
+      let total = this.form.reduce((sum, point) => sum + point.total, 0);
+      this.application.totalPoints = total;
+
+      alert(JSON.stringify(this.application));
     },
   },
   computed: {

@@ -6,7 +6,7 @@
           <h3>
             <p class="naslov-natjecaja">
               NATJEČAJ ZA DODJELU POSLOVNIH PROSTORA GRADA PULE NA UPORABU
-              POSLOVNIM SUBJEKTIMA
+              UDRUGAMA
             </p>
           </h3>
         </v-card-title>
@@ -69,9 +69,6 @@
                     <th>
                       Broj bodova
                     </th>
-                    <th>
-                      Vaši bodovi
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -82,6 +79,14 @@
                 </tbody>
               </template>
             </v-simple-table>
+            <v-checkbox
+              label="Upoznat/a sam s odredbama Zakona o elektroničkoj ispravi (N.N.
+              br. 150/05), te izričito izjavljujem da sam suglasan/na da mi Grad
+              Pula sva pismena povodom ovog zahtjeva dostavlja elektroničkim
+              putem."
+            >
+            </v-checkbox>
+
             <v-row align="center" justify="space-around">
               <v-btn class="obrazac" depressed>
                 <router-link to="/obrazac">

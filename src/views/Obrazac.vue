@@ -63,8 +63,11 @@
                   <td @change="calculateCoefficient(category)">
                     <b-input v-model="category.score" />
                   </td>
-                  <td>
+                  <td v-if="category.changeApplied === false">
                     {{ category.coeff }}
+                  </td>
+                  <td v-if="category.changeApplied === true">
+                    {{ category.newCoeff }}
                   </td>
                   <td>{{ category.total }}</td>
                 </tr>
@@ -89,6 +92,7 @@
   </v-container>
 </template>
 <script>
+import MetamaskConnect from "../contracts/MetamaskConnect";
 export default {
   name: "Natjecaj",
   data() {
@@ -101,6 +105,8 @@ export default {
         email: "",
         foundationYear: 0,
         totalPoints: 0,
+        accountBalance: 0,
+        web3: null,
       },
       form: [
         {
@@ -109,6 +115,7 @@ export default {
           score: 0,
           total: 0,
           coefFixed: true,
+          changeApplied: false,
         },
         {
           name: "Broj zaposlenika na određeno ili neodređeno vrijeme do 3",
@@ -118,6 +125,7 @@ export default {
           coefFixed: false,
           threshold: 3,
           newCoeff: 2,
+          changeApplied: false,
         },
         {
           name:
@@ -126,6 +134,7 @@ export default {
           score: 0,
           total: 0,
           coefFixed: true,
+          changeApplied: false,
         },
         {
           name: "Broj članova udruge do 100",
@@ -135,6 +144,7 @@ export default {
           coefFixed: false,
           threshold: 200,
           newCoeff: 2.5,
+          changeApplied: false,
         },
         {
           name: "Broj aktivnih volontera do 5",
@@ -144,6 +154,7 @@ export default {
           coefFixed: false,
           threshold: 5,
           newCoeff: 10,
+          changeApplied: false,
         },
         {
           name:
@@ -152,6 +163,7 @@ export default {
           score: 0,
           total: 0,
           coefFixed: true,
+          changeApplied: false,
         },
       ],
     };
@@ -162,10 +174,11 @@ export default {
       if (!form.coefFixed) {
         if (form.score > form.threshold) {
           form.total = form.newCoeff * form.score;
-          form.coeff = form.newCoeff;
+          form.changeApplied = true;
           return;
         }
       }
+      form.changeApplied = false;
       form.total = form.coeff * form.score;
       return;
     },
@@ -180,6 +193,11 @@ export default {
     totalPoints() {
       return this.form.reduce((sum, point) => sum + point.total, 0);
     },
+  },
+  async mounted() {
+    const { web3 } = await MetamaskConnect();
+    this.web3 = web3;
+    await this.updateBalance();
   },
 };
 </script>

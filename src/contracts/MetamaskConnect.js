@@ -8,8 +8,15 @@ export default async () => {
   const provider = await detectEthereumProvider();
 
   if (provider) {
-    window.ethereum.on("accountsChanged", () => {});
-    console.log("ETH succes ");
+    await window.ethereum.enable();
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const account = accounts[0];
+    console.log(account);
+    window.ethereum.on("accountsChanged", function(accounts) {
+      console.log(accounts[0]);
+    });
   } else {
     console.error("Not recognized");
   }

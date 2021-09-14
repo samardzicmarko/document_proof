@@ -93,6 +93,8 @@
 </template>
 <script>
 import MetamaskConnect from "../contracts/MetamaskConnect";
+//import contractService from "../contracts/ContractService";
+
 export default {
   name: "Natjecaj",
   data() {
@@ -118,7 +120,7 @@ export default {
           changeApplied: false,
         },
         {
-          name: "Broj zaposlenika na određeno ili neodređeno vrijeme do 3",
+          name: "Broj zaposlenika na određeno ili neodređeno vrijeme",
           coeff: 1,
           score: 0,
           total: 0,
@@ -137,7 +139,7 @@ export default {
           changeApplied: false,
         },
         {
-          name: "Broj članova udruge do 100",
+          name: "Broj članova udruge",
           coeff: 1,
           score: 0,
           total: 0,
@@ -147,7 +149,7 @@ export default {
           changeApplied: false,
         },
         {
-          name: "Broj aktivnih volontera do 5",
+          name: "Broj aktivnih volontera",
           coeff: 5,
           score: 0,
           total: 0,
@@ -199,6 +201,15 @@ export default {
     this.web3 = web3;
     await this.updateBalance();
   },
+
+  // beforeMount() {
+  //   contractService.methods
+  //     .returnAllBids()
+  //     .call()
+  //     .then((auctions) => {
+  //       console.log(auctions);
+  //     });
+  // },
 };
 </script>
 

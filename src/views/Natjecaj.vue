@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-card>
+      <v-card class="natjecaj-card">
         <v-card-title>
           <h3>
             <p class="naslov-natjecaja">
@@ -80,21 +80,23 @@
               </template>
             </v-simple-table>
             <v-checkbox
+              v-model="agreedTerms"
+              @click="agreedTerms = true"
               label="Upoznat/a sam s odredbama Zakona o elektroničkoj ispravi (N.N.
               br. 150/05), te izričito izjavljujem da sam suglasan/na da mi Grad
               Pula sva pismena povodom ovog zahtjeva dostavlja elektroničkim
               putem."
             >
             </v-checkbox>
-
-            <v-row align="center" justify="space-around">
-              <v-btn class="obrazac" depressed>
-                <router-link to="/obrazac">
-                  Prijava obrazca
-                </router-link>
-              </v-btn>
-            </v-row>
           </v-card>
+          <v-spacer />
+          <v-row align="center" justify="space-around">
+            <v-btn class="obrazac" :disabled="!this.agreedTerms">
+              <router-link to="/obrazac">
+                Prijava obrazca
+              </router-link>
+            </v-btn>
+          </v-row>
         </v-row>
       </v-card>
     </v-row>
@@ -113,6 +115,7 @@ export default {
         "pravodobno i u cijelosti ispunjavaju ugovorne obveze preuzete na temelju ugovora o dodjeli bespovratnih sredstava",
         "provode projekte i programe, odnosno aktivnosti od interesa za Grad Pulu.",
       ],
+      agreedTerms: false,
       kriteriji: [
         {
           naslov: "za svaku godinu aktivnog djelovanja",
@@ -120,7 +123,7 @@ export default {
           score: 0,
         },
         {
-          naslov: "Broj zaposlenika na određeno ili neodređeno vrijeme do 3",
+          naslov: "Broj zaposlenika na određeno ili neodređeno vrijeme",
           bodovi: 1,
           score: 0,
         },
@@ -178,6 +181,11 @@ export default {
 }
 
 .obrazac {
+  padding: 10px;
   align-content: center;
+}
+
+.natjecaj-card {
+  padding: 40px;
 }
 </style>
